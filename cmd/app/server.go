@@ -3,21 +3,24 @@ package main
 import (
 	"net/http"
 	"io"
-	"log"
+	"fmt"
 )
 
 func main() {
+	addr := ":8090"
 	http.HandleFunc("/ping", pingHandler)
 	http.HandleFunc("/pong", pongHandler)
-
-	err := http.ListenAndServe(":8090", nil)
+	fmt.Printf("Starting server at %s", addr)
+	err := http.ListenAndServe(addr, nil)
 	if err != nil {
-		log.Fatal("Error:", err)
+		fmt.Printf("Error: %v", err)
 	}
 }
+
 func pongHandler(writer http.ResponseWriter, request *http.Request) {
 	io.WriteString(writer, "Pong...")
 }
+
 func pingHandler(writer http.ResponseWriter, request *http.Request) {
 	io.WriteString(writer, "Ping...")
 }
